@@ -7,7 +7,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-/**
+/**rwr4rwr
 *Represents an admin in the system.
 *@typedef {Object} Admin
 *@property {string} first_name - The first name of the admin.
