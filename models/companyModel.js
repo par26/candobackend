@@ -10,12 +10,11 @@ const Schema = mongoose.Schema;
 /**
 *Represents an admin in the system.
 *@typedef {Object} Company
-*@property {string} first_name - The first name of the admin.
-*@property {string} last_name - The last name of the admin.
-*@property {string} classId - The id of the admin's class.
+*@property {string} name - The name of the company.
 *@property {Array.<mongoose.Schema.Types.ObjectId>} event - An array of company object ids.
 *@property {string} email - The email of the admin.
-*@property {string} password - The password of the admin.
+*@property {Array.String} resources - The different resources the company has
+*@property {string} location
 */
 
 const CompanySchema = Schema ({
@@ -23,13 +22,13 @@ const CompanySchema = Schema ({
   
   type: [{type: String}],
 
-  contacts: [],
+  location:{type: String, required: false, maxLength: 300},
+
+  //contacts: [{type:}],
   //students: [{type: Schema.Types.ObjectId, ref: "Student"}],
-  classId: {type: String, required: true},
+  //classId: {type: String, required: true},
   //event: [{type: Schema.Types.ObjectId, ref: "Event"}],
   resources: [{type: String}],
-  
-  
 });
 
 

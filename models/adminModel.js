@@ -18,17 +18,16 @@ const Schema = mongoose.Schema;
 *@property {string} password - The password of the admin.
 */
 
-const AdminSchema = Schema ({
+const AdminSchema = Schema ({ 
   first_name: {type: String, required: true, maxLength: 100 },
   last_name: {type: String, required: true, maxLength: 100 },
   //students: [{type: Schema.Types.ObjectId, ref: "Student"}],
-  classId: {type: String, required: true},
+  //classId: {type: String, required: true},
   //event: [{type: Schema.Types.ObjectId, ref: "Event"}],
   email: {type: String, required: true},
   password: {type: String, required: true},
 
-  companies: [type: ObjectId, required: true], 
-  
+  companies: [{ type: Schema.Types.ObjectId, ref: "Company" }], 
 });
 
 
