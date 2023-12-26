@@ -24,6 +24,10 @@ const CompanySchema = Schema ({
 
   location:{type: String, required: false, maxLength: 300},
 
+  phone_number: {type: String},
+
+  email: {type: String},
+
   //contacts: [{type:}],
   //students: [{type: Schema.Types.ObjectId, ref: "Student"}],
   //classId: {type: String, required: true},

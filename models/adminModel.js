@@ -27,6 +27,8 @@ const AdminSchema = Schema ({ 
   email: {type: String, required: true},
   password: {type: String, required: true},
 
+  phone_number: {type: String},
+  
   companies: [{ type: Schema.Types.ObjectId, ref: "Company" }], 
 });
 
