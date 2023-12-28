@@ -3,8 +3,7 @@ const app = require("./app");
 
 mongoose.set("strictQuery", false);
 
-const mongoDbUrl =
-	"mongodb+srv://pratush:fbla2022@cluster0.mgees8m.mongodb.net/?retryWrites=true&w=majority";
+const mongoDbUrl = process.env.MONGO_DB_URL;
 
 mongoose.connect(mongoDbUrl).then(() => {
 	console.log("Successfully connected to database!");
