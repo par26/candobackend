@@ -1,6 +1,9 @@
 const express = require("express");
+const { authenticateAdmin } = require("../controllers/adminController");
 
 const router = express.Router();
+
+router.use(authenticateAdmin);
 
 /* GET users listing. */
 router.get("/", function (req, res) {
