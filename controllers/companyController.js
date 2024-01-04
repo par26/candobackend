@@ -6,6 +6,8 @@ exports.company_create_post = async (req, res) => {
     
   var tags = req.body.tags;
 
+  var contacts = req.body.contacts;
+
   // Converts the tags into an array
   if(!Array.isArray(tags)) {
     if(typeof tags === "undefined") {
@@ -16,8 +18,8 @@ exports.company_create_post = async (req, res) => {
 
   } 
 
+  
   //note: May need to add the resources later
-
 
     var companyModel = new Company ({
         name: req.body.name,
@@ -25,10 +27,6 @@ exports.company_create_post = async (req, res) => {
         type: tags,
 
         location: req.body.location,
-
-        phone_number: req.body.phone_number,
-
-        email: req.body.email,
     });
 
 
@@ -50,4 +48,72 @@ exports.company_create_post = async (req, res) => {
   
 
 
+}
+
+exports.company_edit_post = async (req, res) => {
+
+
+  const company = new Company ({
+    name: req.body.name,
+        
+    type: tags,
+
+    location: req.body.location,
+
+    
+  });
+
+  Company.findByIdAndUpdate(req.params.companyID, company, function(err, comp) {
+    if(err) {
+      return res.status(500).send(err)
+    }
+  });
+
+}
+
+
+exports.company_getAll = async (req, res) => {
+  Admin.findById(req.admin._id, async function(err, admin) {
+
+    var companies= [];
+    
+    if (err) {
+      res.send(err)
+    } else {
+
+      if(admin.companies) {
+         //loops through all the events in the admin's events array
+        for(var i = 0; i < admin.companies.length; i++) {
+            //finds the event object and stores it into student variable
+            const company = await Company.findById(admin.companies[i]).exec();
+            //adds the event variable to the array
+            companies.push(company);
+          }
+
+        
+      }
+      
+      res.json(companies);
+    
+    }
+  })
+  
+}
+
+
+exports.company_get = async (req, res) => {
+  Company.findById(req.params.companyID, async function(err, company) {
+      if(err) {
+        res.send(err)
+      } else {
+        res.json(company)
+      }
+  })
+}
+
+
+
+
+exports.search_company = async (req, res) => {
+  
 }

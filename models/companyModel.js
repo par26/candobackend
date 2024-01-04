@@ -22,16 +22,14 @@ const CompanySchema = Schema ({
   
   type: [{type: String}],
 
+  image: {type: String},
+
+  description: {type: String},
+
   location:{type: String, required: false, maxLength: 300},
 
-  phone_number: {type: String},
+  contacts: [{type: Schema.Types.ObjectId, ref: "Contact"}],
 
-  email: {type: String},
-
-  //contacts: [{type:}],
-  //students: [{type: Schema.Types.ObjectId, ref: "Student"}],
-  //classId: {type: String, required: true},
-  //event: [{type: Schema.Types.ObjectId, ref: "Event"}],
   resources: [{type: String}],
 });
 

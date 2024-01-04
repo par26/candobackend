@@ -30,6 +30,8 @@ const AdminSchema = Schema ({ 
   phone_number: {type: String},
   
   companies: [{ type: Schema.Types.ObjectId, ref: "Company" }], 
+
+  searchHistory: [{type: String}],
 });
 
 

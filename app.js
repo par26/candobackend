@@ -51,6 +51,8 @@ async function authenticateAdmin(req, res, next) {
 
       req.admin = admin;
 
+    
+
       next(); 
     })
 
