@@ -98,6 +98,29 @@ exports.deleteCompany = async (req, res) => {
 	}
 };
 
+
+exports.searchCompany = async (req, res) => {
+	try {
+		const keyword = req.query.keyword
+		
+		const companies = await Company.find({$text: {
+			$search: keyword,
+			$caseSensitive: false, 
+		  }});
+
+		res.send(200).json({
+			status: "success",
+			data: companies,			
+	})
+
+	} catch(error) {
+		res.status(404).json({
+			status: "fail",
+			message: error
+		})
+	}
+}
+
 // exports.company_create_post = async (req, res) => {
 // 	var tags = req.body.tags;
 

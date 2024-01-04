@@ -21,6 +21,10 @@ const companySchema = Schema({
 
 	type: [{ type: String }],
 
+	image: {type: String},
+
+	description: {type: String},
+
 	location: { type: String, required: false, maxLength: 300 },
 
 	phoneNumber: { type: String },
@@ -32,6 +36,17 @@ const companySchema = Schema({
 	//classId: {type: String, required: true},
 	//event: [{type: Schema.Types.ObjectId, ref: "Event"}],
 	resources: [{ type: String }],
+});
+
+
+companySchema.index({name: 'text', type: 'text', description: 'text'},
+{
+  weights : 
+      { 
+          name : 5, 
+          type : 4,
+          description: 2,
+      }
 });
 
 //exports the admin module
