@@ -115,5 +115,22 @@ exports.company_get = async (req, res) => {
 
 
 exports.search_company = async (req, res) => {
-  
-}
+  let seachString = req.query.searchString
+  let filter = req.query.filters
+  //wait until the distance was implemented for the req,query.distance
+  let distance = req.query.distance
+
+
+
+  Company.find({$text: {
+    $search: seachString,
+    $caseSensitive: false, 
+  }}).exec(function(err, companies) {
+    if(err) {
+      res.status(500).send(err);
+    } else [
+      res.json(companies)
+    ]
+  });
+ 
+};

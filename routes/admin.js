@@ -8,9 +8,6 @@ router.get('/', function(req, res, next) {
 
 
 router.get('/searchCompany/', function(req, res) {
-  req.query.searchString
-  req.query.filters
-  req.query.distance
 
 
 })

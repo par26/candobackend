@@ -34,6 +34,17 @@ const CompanySchema = Schema ({
 });
 
 
+CompanySchema.index({name: 'text', type: 'text', description: 'text'},
+{
+  weights : 
+      { 
+          name : 5, 
+          type : 4,
+          description: 2,
+      }
+});
+
+
 
 //exports the admin module
 module.exports = mongoose.model("Company", CompanySchema);
