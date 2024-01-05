@@ -3,8 +3,8 @@
 /**@module adminModel 
 */
 const mongoose = require("mongoose");
-
-const Schema = mongoose.Schema;
+const bcrypt = require("bcryptjs");
+const validator = require("validator");
 
 /**rwr4rwr
  *Represents an admin in the system.
@@ -17,19 +17,44 @@ const Schema = mongoose.Schema;
  *@property {string} password - The password of the admin.
  */
 
-const AdminSchema = Schema({
-    firstName: { type: String, required: true, maxLength: 100 },
-    lastName: { type: String, required: true, maxLength: 100 },
+const adminSchema = new mongoose.Schema({
+    firstName: {
+        type: String,
+        required: [true, "Please fill in your first name"],
+        maxLength: 100,
+    },
+    lastName: {
+        type: String,
+        required: [true, "Please fill in your last name"],
+        maxLength: 100,
+    },
     //students: [{type: Schema.Types.ObjectId, ref: "Student"}],
     //classId: {type: String, required: true},
     //event: [{type: Schema.Types.ObjectId, ref: "Event"}],
-    email: { type: String, required: true },
-    password: { type: String, required: true },
-
+    email: {
+        type: String,
+        required: [true, "Please provide an email"],
+        unique: true,
+        validate: [validator.isEmail, "Please provide a valid email"],
+    },
+    password: {
+        type: String,
+        required: [true, "Please provide a password"],
+        minlength: [8, "Password must be at least 8 characters long"],
+    },
     phoneNumber: { type: String },
+    companies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }],
+});
 
-    companies: [{ type: Schema.Types.ObjectId, ref: "Company" }],
+adminSchema.pre("save", async function (next) {
+    if (!this.isModified("password")) {
+        return next();
+    }
+
+    this.password = await bcrypt.hash(this.password, 12);
+
+    next();
 });
 
 //exports the admin module
-module.exports = mongoose.model("Admin", AdminSchema);
+module.exports = mongoose.model("Admin", adminSchema);

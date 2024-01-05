@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const jwt = require("jsonwebtoken");
 const indexRouter = require("./routes/index");
-const adminRouter = require("./routes/admin");
+const adminRouter = require("./routes/adminRoutes");
 const companyRouter = require("./routes/companyRoutes");
 const errorController = require("./controllers/errorController");
 const AppError = require("./utils/AppError");
@@ -20,7 +20,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/v1/", indexRouter);
-app.use("/api/v1/admin", adminRouter);
+app.use("/api/v1/admins", adminRouter);
 app.use("/api/v1/companies", companyRouter);
 
 app.all("*", (req, res, next) => {

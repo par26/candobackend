@@ -4,8 +4,6 @@
 */
 const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
-
 /**
  *Represents an admin in the system.
  *@typedef {Object} Company
@@ -16,7 +14,7 @@ const Schema = mongoose.Schema;
  *@property {string} location
  */
 
-const companySchema = Schema({
+const companySchema = new mongoose.Schema({
     name: { type: String, required: true, maxLength: 100 },
 
     type: [{ type: String }],
