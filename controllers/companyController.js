@@ -102,11 +102,18 @@ exports.deleteCompany = async (req, res) => {
 exports.searchCompany = async (req, res) => {
 	try {
 		const keyword = req.query.keyword
+
+		const filterCriteria = {
+			$text: {
+				$search: keyword,
+				$caseSensitive: false,
+			},
+			
+			type: req.query.type
+		};
+
 		
-		const companies = await Company.find({$text: {
-			$search: keyword,
-			$caseSensitive: false, 
-		  }});
+		const companies = await Company.find(filterCriteria);
 
 		res.send(200).json({
 			status: "success",
