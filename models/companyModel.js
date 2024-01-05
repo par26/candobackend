@@ -17,37 +17,37 @@ const Schema = mongoose.Schema;
  */
 
 const companySchema = Schema({
-	name: { type: String, required: true, maxLength: 100 },
+    name: { type: String, required: true, maxLength: 100 },
 
-	type: [{ type: String }],
+    type: [{ type: String }],
 
-	image: {type: String},
+    image: { type: String },
 
-	description: {type: String},
+    description: { type: String },
 
-	location: { type: String, required: false, maxLength: 300 },
+    location: { type: String, required: false, maxLength: 300 },
 
-	phoneNumber: { type: String },
+    phoneNumber: { type: String },
 
-	email: { type: String },
+    email: { type: String },
 
-	//contacts: [{type:}],
-	//students: [{type: Schema.Types.ObjectId, ref: "Student"}],
-	//classId: {type: String, required: true},
-	//event: [{type: Schema.Types.ObjectId, ref: "Event"}],
-	resources: [{ type: String }],
+    //contacts: [{type:}],
+    //students: [{type: Schema.Types.ObjectId, ref: "Student"}],
+    //classId: {type: String, required: true},
+    //event: [{type: Schema.Types.ObjectId, ref: "Event"}],
+    resources: [{ type: String }],
 });
 
-
-companySchema.index({name: 'text', type: 'text', description: 'text'},
-{
-  weights : 
-      { 
-          name : 5, 
-          type : 4,
-          description: 2,
-      }
-});
+companySchema.index(
+    { name: "text", type: "text", description: "text" },
+    {
+        weights: {
+            name: 5,
+            type: 4,
+            description: 2,
+        },
+    }
+);
 
 //exports the admin module
 module.exports = mongoose.model("Company", companySchema);

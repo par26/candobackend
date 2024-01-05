@@ -4,14 +4,14 @@ const companyController = require("../controllers/companyController");
 const router = express.Router();
 
 router
-	.route("/")
-	.get(companyController.getAllCompanies)
-	.post(companyController.createCompany);
+    .route("/")
+    .get(companyController.getAllCompanies)
+    .post(companyController.createCompany);
 
 router
-	.route("/:id")
-	.get(companyController.getCompany)
-	.patch(companyController.updateCompany)
-	.delete(companyController.deleteCompany);
+    .route("/:id")
+    .get(companyController.getCompany)
+    .patch(companyController.updateCompany)
+    .delete(companyController.deleteCompany);
 
 module.exports = router;

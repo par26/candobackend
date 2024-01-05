@@ -8,6 +8,8 @@ const jwt = require("jsonwebtoken");
 const indexRouter = require("./routes/index");
 const adminRouter = require("./routes/admin");
 const companyRouter = require("./routes/companyRoutes");
+const errorController = require("./controllers/errorController");
+const AppError = require("./utils/AppError");
 
 const app = express();
 
@@ -20,5 +22,16 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api/v1/", indexRouter);
 app.use("/api/v1/admin", adminRouter);
 app.use("/api/v1/companies", companyRouter);
+
+app.all("*", (req, res, next) => {
+    const error = new AppError(
+        `Can't find ${req.originalUrl} on this server!`,
+        404
+    );
+
+    next(error);
+});
+
+app.use(errorController);
 
 module.exports = app;

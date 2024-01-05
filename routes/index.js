@@ -8,7 +8,7 @@ let refreshTokens = [];
 
 /* GET home page. */
 router.get("/", function (req, res) {
-	//res.render('index', { title: 'Express' });
+    //res.render('index', { title: 'Express' });
 });
 
 //route to refresh the token
