@@ -42,7 +42,14 @@ const adminSchema = new mongoose.Schema({
         required: [true, "Please provide a password"],
         minlength: [8, "Password must be at least 8 characters long"],
     },
-    phoneNumber: { type: String },
+    phoneNumber: {
+        type: String,
+        validate: [
+            validator.isMobilePhone,
+            "Please provide a valid phone number",
+        ],
+        unique: true,
+    },
     companies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }],
 });
 

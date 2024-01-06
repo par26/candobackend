@@ -10,6 +10,7 @@ const adminRouter = require("./routes/adminRoutes");
 const companyRouter = require("./routes/companyRoutes");
 const errorController = require("./controllers/errorController");
 const AppError = require("./utils/AppError");
+const cors = require("cors");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use(cors());
 
 app.use("/api/v1/", indexRouter);
 app.use("/api/v1/admins", adminRouter);
