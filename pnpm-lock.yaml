@@ -26,6 +26,9 @@ dependencies:
   jsonwebtoken:
     specifier: ^9.0.2
     version: 9.0.2
+  lohsfblabackend:
+    specifier: 'link:'
+    version: 'link:'
   mongoose:
     specifier: ^7.6.3
     version: 7.6.7

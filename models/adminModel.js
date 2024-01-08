@@ -41,6 +41,7 @@ const adminSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please provide a password"],
         minlength: [8, "Password must be at least 8 characters long"],
+        select: false,
     },
     phoneNumber: {
         type: String,
@@ -62,6 +63,13 @@ adminSchema.pre("save", async function (next) {
 
     next();
 });
+
+adminSchema.methods.comparePasswords = async function (
+    candidatePassword,
+    userPassword
+) {
+    return await bcrypt.compare(candidatePassword, userPassword);
+};
 
 //exports the admin module
 module.exports = mongoose.model("Admin", adminSchema);

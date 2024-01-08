@@ -14,6 +14,7 @@
         "dotenv": "^16.3.1",
         "express": "^4.18.2",
         "jsonwebtoken": "^9.0.2",
+        "lohsfblabackend": "link:",
         "mongoose": "^7.6.3",
         "morgan": "~1.9.1",
         "validator": "^13.11.0"
