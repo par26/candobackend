@@ -5,9 +5,7 @@ process.on("uncaughtException", error => {
     console.error(error.name, error.message);
     console.error(error.stack);
 
-    server.close(() => {
-        process.exit(1);
-    });
+    process.exit(1);
 });
 
 const app = require("./app");

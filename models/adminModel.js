@@ -51,6 +51,7 @@ const adminSchema = new mongoose.Schema({
         ],
         unique: true,
     },
+    passwordLastChangedAt: Date,
     companies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }],
 });
 
@@ -69,6 +70,20 @@ adminSchema.methods.comparePasswords = async function (
     userPassword
 ) {
     return await bcrypt.compare(candidatePassword, userPassword);
+};
+
+adminSchema.methods.hasPasswordChangedAfter = function (jwtTimestamp) {
+    if (this.passwordLastChangedAt) {
+        const timestamp = Math.floor(
+            this.passwordLastChangedAt.getTime() / 1000
+        );
+
+        // If the password is changed after the token was created, timestamp is going to be bigger than jwtTimestamp,
+        // which this code under here will return true, meaning the password changed after the token was created.
+        return jwtTimestamp < timestamp;
+    }
+
+    return false;
 };
 
 //exports the admin module

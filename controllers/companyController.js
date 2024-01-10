@@ -42,6 +42,9 @@ exports.getCompany = catchAsync(async (req, res, next) => {
 
 exports.createCompany = catchAsync(async (req, res) => {
     const newCompany = await Company.create(req.body);
+    req.user.companies.push(newCompany._id);
+    await req.user.save();
+
     res.status(201).json({
         status: "success",
         data: {
