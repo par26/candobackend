@@ -1,23 +1,23 @@
 /** 
-* Admin model
-/**@module adminModel 
+* User model
+/**@module userModel 
 */
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
 
 /**rwr4rwr
- *Represents an admin in the system.
- *@typedef {Object} Admin
- *@property {string} first_name - The first name of the admin.
- *@property {string} last_name - The last name of the admin.
- *@property {string} classId - The id of the admin's class.
+ *Represents an user in the system.
+ *@typedef {Object} User
+ *@property {string} first_name - The first name of the user.
+ *@property {string} last_name - The last name of the user.
+ *@property {string} classId - The id of the user's class.
  *@property {Array.<mongoose.Schema.Types.ObjectId>} event - An array of company object ids.
- *@property {string} email - The email of the admin.
- *@property {string} password - The password of the admin.
+ *@property {string} email - The email of the user.
+ *@property {string} password - The password of the user.
  */
 
-const adminSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: [true, "Please fill in your first name"],
@@ -55,7 +55,7 @@ const adminSchema = new mongoose.Schema({
     companies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }],
 });
 
-adminSchema.pre("save", async function (next) {
+userSchema.pre("save", async function (next) {
     if (!this.isModified("password")) {
         return next();
     }
@@ -65,14 +65,14 @@ adminSchema.pre("save", async function (next) {
     next();
 });
 
-adminSchema.methods.comparePasswords = async function (
+userSchema.methods.comparePasswords = async function (
     candidatePassword,
     userPassword
 ) {
     return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-adminSchema.methods.hasPasswordChangedAfter = function (jwtTimestamp) {
+userSchema.methods.hasPasswordChangedAfter = function (jwtTimestamp) {
     if (this.passwordLastChangedAt) {
         const timestamp = Math.floor(
             this.passwordLastChangedAt.getTime() / 1000
@@ -86,5 +86,5 @@ adminSchema.methods.hasPasswordChangedAfter = function (jwtTimestamp) {
     return false;
 };
 
-//exports the admin module
-module.exports = mongoose.model("Admin", adminSchema);
+//exports the user module
+module.exports = mongoose.model("User", userSchema);

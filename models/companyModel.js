@@ -1,15 +1,15 @@
 /** 
 * Company model
-/**@module adminModel 
+/**@module UserModel 
 */
 const mongoose = require("mongoose");
 
 /**
- *Represents an admin in the system.
+ *Represents an user in the system.
  *@typedef {Object} Company
  *@property {string} name - The name of the company.
  *@property {Array.<mongoose.Schema.Types.ObjectId>} event - An array of company object ids.
- *@property {string} email - The email of the admin.
+ *@property {string} email - The email of the user.
  *@property {Array.String} resources - The different resources the company has
  *@property {string} location
  */
@@ -47,5 +47,5 @@ companySchema.index(
     }
 );
 
-//exports the admin module
+//exports the user module
 module.exports = mongoose.model("Company", companySchema);

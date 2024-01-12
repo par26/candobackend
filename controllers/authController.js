@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const catchAsync = require("../utils/catchAsync");
-const Admin = require("../models/adminModel");
+const User = require("../models/userModel");
 const jwt = require("jsonwebtoken");
 const AppError = require("../utils/AppError");
 const bcrypt = require("bcryptjs");
@@ -15,7 +15,7 @@ function signToken(id) {
 exports.signup = catchAsync(async (req, res) => {
     const { firstName, lastName, email, phoneNumber, password } = req.body;
 
-    const admin = await Admin.create({
+    const user = await User.create({
         firstName,
         lastName,
         email,
@@ -23,13 +23,13 @@ exports.signup = catchAsync(async (req, res) => {
         password,
     });
 
-    const token = signToken(admin._id);
+    const token = signToken(user._id);
 
     res.status(201).json({
         status: "success",
         token,
         data: {
-            admin,
+            user,
         },
     });
 });
@@ -40,7 +40,7 @@ exports.login = catchAsync(async (req, res, next) => {
         return next(new AppError("Please provide email and password", 400));
     }
 
-    const user = await Admin.findOne({ email }).select("+password");
+    const user = await User.findOne({ email }).select("+password");
     if (!user || !(await user.comparePasswords(password, user.password))) {
         return next(new AppError("Email or password incorrect", 401));
     }
@@ -76,7 +76,7 @@ exports.protect = catchAsync(async (req, res, next) => {
         return next(new AppError("id doesn't exist on payload", 401));
     }
 
-    const foundUser = await Admin.findById(payload.id);
+    const foundUser = await User.findById(payload.id);
     if (!foundUser) {
         return next(
             new AppError("The user issued in the token doesn't exist", 401)

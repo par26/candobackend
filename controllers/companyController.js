@@ -3,6 +3,7 @@ const Company = require("../models/companyModel");
 const APIFeatures = require("../utils/APIFeatures");
 const catchAsync = require("../utils/catchAsync");
 const AppError = require("../utils/AppError");
+const User = require("../models/userModel");
 
 /**
  * @param {express.Request} req
@@ -40,7 +41,24 @@ exports.getCompany = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.createCompany = catchAsync(async (req, res) => {
+exports.createCompany = catchAsync(async (req, res, next) => {
+    console.log(req.params, req.user._id);
+
+    const user = await User.findById(req.params.userId);
+
+    if (!user) {
+        return next(new AppError("Requested user doesn't exist", 401));
+    }
+
+    if (!user._id.equals(req.user._id)) {
+        return next(
+            new AppError(
+                "You are not allowed to create a company for this user",
+                401
+            )
+        );
+    }
+
     const newCompany = await Company.create(req.body);
     req.user.companies.push(newCompany._id);
     await req.user.save();
@@ -132,12 +150,12 @@ exports.searchCompany = catchAsync(async (req, res) => {
 // 			return res.status(500).send(err);
 // 		}
 // 		// Successful
-// 		// Find the admin document by ID and append the new company id to the companies array
-// 		Admin.findByIdAndUpdate(
-// 			req.admin._id,
+// 		// Find the user document by ID and append the new company id to the companies array
+// 		User.findByIdAndUpdate(
+// 			req.user._id,
 // 			{ $push: { companies: company._id } },
 // 			{ new: true }
-// 		).exec((err, admin) => {
+// 		).exec((err, user) => {
 // 			if (err) {
 // 				return res.status(500).send(err);
 // 			}

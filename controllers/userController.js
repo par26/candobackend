@@ -1,4 +1,4 @@
-const Admin = require("../models/adminModel");
+const Admin = require("../models/userModel");
 
 exports.authenticateAdmin = (req, res, next) => {
     try {
