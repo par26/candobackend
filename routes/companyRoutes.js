@@ -6,13 +6,13 @@ const router = express.Router({ mergeParams: true });
 
 router
     .route("/")
-    // .get(companyController.getAllCompanies)
-    .post(authController.protect, companyController.createCompany);
+    .get(companyController.getAllCompanies)
+    .post(companyController.createCompany);
 
 router
-    .route("/:id")
-    .get(authController.protect, companyController.getCompany)
-    .patch(authController.protect, companyController.updateCompany)
-    .delete(authController.protect, companyController.deleteCompany);
+    .route("/:companyId")
+    .get(authController.checkOwner, companyController.getCompany)
+    .patch(authController.checkOwner, companyController.updateCompany)
+    .delete(authController.checkOwner, companyController.deleteCompany);
 
 module.exports = router;

@@ -34,6 +34,11 @@ const companySchema = new mongoose.Schema({
     //classId: {type: String, required: true},
     //event: [{type: Schema.Types.ObjectId, ref: "Event"}],
     resources: [{ type: String }],
+
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+    },
 });
 
 companySchema.index(

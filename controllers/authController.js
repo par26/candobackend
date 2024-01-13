@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const AppError = require("../utils/AppError");
 const bcrypt = require("bcryptjs");
 const { promisify } = require("util");
+const Company = require("../models/companyModel");
 
 function signToken(id) {
     return jwt.sign({ id }, process.env.ACCESS_TOKEN_SECRET, {
@@ -94,5 +95,34 @@ exports.protect = catchAsync(async (req, res, next) => {
     }
 
     req.user = foundUser;
+
     next();
 });
+
+exports.checkUserIdMatch = async (req, res, next) => {
+    const user = await User.findById(req.params.userId);
+
+    if (!user) {
+        return next(new AppError("Requested user doesn't exist", 401));
+    }
+
+    if (!user._id.equals(req.user._id)) {
+        return next(
+            new AppError(
+                "You are not allowed to create a company for this user",
+                401
+            )
+        );
+    }
+
+    next();
+};
+
+exports.checkOwner = async (req, res, next) => {
+    const company = await Company.findById(req.params.companyId);
+    if (!company.owner.equals(req.user._id)) {
+        return next(new AppError("You do not own this company", 401));
+    }
+
+    next();
+};

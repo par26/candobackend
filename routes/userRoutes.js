@@ -2,6 +2,7 @@ const express = require("express");
 const { authenticateAdmin } = require("../controllers/userController");
 const authController = require("../controllers/authController");
 const companyRouter = require("./companyRoutes");
+const companyController = require("../controllers/companyController");
 
 const router = express.Router();
 
@@ -15,6 +16,11 @@ router.get("/", (req, res) => {
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
 
-router.use("/:userId/companies", companyRouter);
+router.use(
+    "/:userId/companies",
+    authController.protect,
+    authController.checkUserIdMatch,
+    companyRouter
+);
 
 module.exports = router;

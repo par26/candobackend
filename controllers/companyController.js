@@ -10,7 +10,10 @@ const User = require("../models/userModel");
  * @param {express.Response} res
  */
 exports.getAllCompanies = catchAsync(async (req, res) => {
-    const features = new APIFeatures(Company.find(), req.query)
+    const features = new APIFeatures(
+        Company.find({ owner: req.user._id }),
+        req.query
+    )
         .filter()
         .sort()
         .limitFields()
@@ -28,8 +31,8 @@ exports.getAllCompanies = catchAsync(async (req, res) => {
 });
 
 exports.getCompany = catchAsync(async (req, res, next) => {
-    const { id } = req.params;
-    const company = await Company.findById(id);
+    const { companyId } = req.params;
+    const company = await Company.findById(companyId);
 
     if (!company) {
         return next(new AppError("No company found with that id", 404));
@@ -42,26 +45,10 @@ exports.getCompany = catchAsync(async (req, res, next) => {
 });
 
 exports.createCompany = catchAsync(async (req, res, next) => {
-    console.log(req.params, req.user._id);
-
-    const user = await User.findById(req.params.userId);
-
-    if (!user) {
-        return next(new AppError("Requested user doesn't exist", 401));
-    }
-
-    if (!user._id.equals(req.user._id)) {
-        return next(
-            new AppError(
-                "You are not allowed to create a company for this user",
-                401
-            )
-        );
-    }
-
-    const newCompany = await Company.create(req.body);
-    req.user.companies.push(newCompany._id);
-    await req.user.save();
+    const newCompany = await Company.create({
+        ...req.body,
+        owner: req.user._id,
+    });
 
     res.status(201).json({
         status: "success",
@@ -72,11 +59,15 @@ exports.createCompany = catchAsync(async (req, res, next) => {
 });
 
 exports.updateCompany = catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const updatedCompany = await Company.findByIdAndUpdate(id, req.body, {
-        new: true,
-        runValidators: true,
-    });
+    const { companyId } = req.params;
+    const updatedCompany = await Company.findByIdAndUpdate(
+        companyId,
+        req.body,
+        {
+            new: true,
+            runValidators: true,
+        }
+    );
 
     if (!updatedCompany) {
         return next(new AppError("No company found with that id", 404));
@@ -89,8 +80,8 @@ exports.updateCompany = catchAsync(async (req, res) => {
 });
 
 exports.deleteCompany = catchAsync(async (req, res) => {
-    const { id } = req.params;
-    const deletedCompany = await Company.findByIdAndDelete(id);
+    const { companyId } = req.params;
+    const deletedCompany = await Company.findByIdAndDelete(companyId);
 
     if (!deletedCompany) {
         return next(new AppError("No company found with that id", 404));
