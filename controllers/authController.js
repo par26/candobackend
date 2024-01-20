@@ -99,7 +99,7 @@ exports.protect = catchAsync(async (req, res, next) => {
     next();
 });
 
-exports.checkUserIdMatch = async (req, res, next) => {
+exports.checkUserIdMatch = catchAsync(async (req, res, next) => {
     const user = await User.findById(req.params.userId);
 
     if (!user) {
@@ -116,13 +116,21 @@ exports.checkUserIdMatch = async (req, res, next) => {
     }
 
     next();
-};
+});
 
-exports.checkOwner = async (req, res, next) => {
+exports.checkOwner = catchAsync(async (req, res, next) => {
     const company = await Company.findById(req.params.companyId);
     if (!company.owner.equals(req.user._id)) {
         return next(new AppError("You do not own this company", 401));
     }
 
     next();
+});
+
+// Token validation happens in the `protect` middleware
+exports.validateToken = (req, res) => {
+    res.status(200).json({
+        status: "success",
+        message: "Token is valid",
+    });
 };

@@ -15,6 +15,11 @@ router.get("/", (req, res) => {
 
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
+router.post(
+    "/validate-token",
+    authController.protect,
+    authController.validateToken
+);
 
 router.use(
     "/:userId/companies",
