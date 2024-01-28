@@ -23,7 +23,7 @@ const companySchema = new mongoose.Schema({
 
     description: { type: String },
 
-    location: { type: String, required: false, maxLength: 300 },
+    location: { type: String, maxLength: 300 },
 
     phoneNumber: { type: String },
 

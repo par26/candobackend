@@ -6,20 +6,20 @@ const companyController = require("../controllers/companyController");
 
 const router = express.Router();
 
-// router.use(authenticateAdmin);
-
-/* GET users listing. */
-router.get("/", (req, res) => {
-    res.send("respond with a resource");
-});
-
 router.post("/signup", authController.signup);
 router.post("/login", authController.login);
-router.post(
-    "/validate-token",
-    authController.protect,
-    authController.validateToken
-);
+router.post("/validate-token", authController.protect, (req, res) => {
+    res.status(200).json({
+        status: "success",
+        message: "Token is valid",
+    });
+});
+router.get("/get-user-from-token", authController.protect, (req, res) => {
+    res.status(200).json({
+        status: "success",
+        user: req.user,
+    });
+});
 
 router.use(
     "/:userId/companies",

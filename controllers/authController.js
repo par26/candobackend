@@ -126,11 +126,3 @@ exports.checkOwner = catchAsync(async (req, res, next) => {
 
     next();
 });
-
-// Token validation happens in the `protect` middleware
-exports.validateToken = (req, res) => {
-    res.status(200).json({
-        status: "success",
-        message: "Token is valid",
-    });
-};
