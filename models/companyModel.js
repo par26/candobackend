@@ -29,6 +29,8 @@ const companySchema = new mongoose.Schema({
 
     email: { type: String },
 
+    createdAt: { type: Date },
+
     //contacts: [{type:}],
     //students: [{type: Schema.Types.ObjectId, ref: "Student"}],
     //classId: {type: String, required: true},

@@ -48,6 +48,7 @@ exports.createCompany = catchAsync(async (req, res, next) => {
     const newCompany = await Company.create({
         ...req.body,
         owner: req.user._id,
+        createdAt: Date.now(),
     });
 
     res.status(201).json({
