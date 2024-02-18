@@ -9,6 +9,8 @@ router
     .get(companyController.getAllCompanies)
     .post(companyController.createCompany);
 
+router.get("/search", companyController.searchCompany);
+
 router
     .route("/:companyId")
     .get(authController.checkOwner, companyController.getCompany)

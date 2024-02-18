@@ -52,7 +52,6 @@ const userSchema = new mongoose.Schema({
         unique: true,
     },
     passwordLastChangedAt: Date,
-    // companies: [{ type: mongoose.Schema.Types.ObjectId, ref: "Company" }],
 });
 
 userSchema.pre("save", async function (next) {
