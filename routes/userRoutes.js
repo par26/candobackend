@@ -3,6 +3,7 @@ const { authenticateAdmin } = require("../controllers/userController");
 const authController = require("../controllers/authController");
 const companyRouter = require("./companyRoutes");
 const companyController = require("../controllers/companyController");
+const reportGenerator = require("../controllers/reportController");
 
 const router = express.Router();
 
@@ -27,5 +28,7 @@ router.use(
     authController.checkUserIdMatch,
     companyRouter
 );
+
+//router.post("/generateReport", reportGenerator.generatePdf);
 
 module.exports = router;

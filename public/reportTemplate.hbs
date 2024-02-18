@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Report</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Report</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Company</th>
+        <th>Type</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      {#each data as company}
+        <tr>
+          <td>{{company.name}}</td>
+          <td>{{company.type}}</td>
+          <td>{{company.description}}</td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</body>
+</html>
