@@ -29,6 +29,10 @@ router.use(
     companyRouter
 );
 
-//router.post("/generateReport", reportGenerator.generatePdf);
+router.get(
+    "/:userId/generate-report",
+    authController.protect,
+    reportGenerator.generatePdf
+);
 
 module.exports = router;

@@ -18,6 +18,8 @@ mongoose.connect(mongoDbUrl).then(() => {
     console.log("Successfully connected to database!");
 });
 
+// app.get("/", (req, res) => {});
+
 const PORT = process.env.PORT || 8000;
 const server = app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);

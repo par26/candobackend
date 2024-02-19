@@ -32,13 +32,13 @@
       </tr>
     </thead>
     <tbody>
-      {#each data as company}
+      {{#companies}}
         <tr>
-          <td>{{company.name}}</td>
-          <td>{{company.type}}</td>
-          <td>{{company.description}}</td>
+          <td>{{name}}</td>
+          <td>{{type}}</td>
+          <td>{{description}}</td>
         </tr>
-      {{/each}}
+      {{/companies}}
     </tbody>
   </table>
 </body>
