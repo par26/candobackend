@@ -16,6 +16,8 @@ const compile = async function (templateName, data) {
 exports.generatePdf = catchAsync(async (req, res, next) => {
     const companies = await Company.find({ owner: req.user._id });
 
+    console.log(req.query);
+
     const userName = req.user.firstName;
 
     const browser = await puppeteer.launch();
@@ -24,6 +26,7 @@ exports.generatePdf = catchAsync(async (req, res, next) => {
     const content = await compile("reportTemplate", {
         // convert companies to js object
         companies: companies.map(company => company.toObject()),
+        showCompanyContacts: req.query.showCompanyContacts === "true",
     });
 
     await page.setContent(content);

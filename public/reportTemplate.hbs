@@ -1,45 +1,89 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>Report</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-    }
-    th, td {
-      border: 1px solid black;
-      padding: 8px;
-      text-align: left;
-    }
-    th {
-      background-color: #f2f2f2;
-    }
-  </style>
-</head>
-<body>
-  <h1>Report</h1>
-  <table>
-    <thead>
-      <tr>
-        <th>Company</th>
-        <th>Type</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      {{#companies}}
-        <tr>
-          <td>{{name}}</td>
-          <td>{{type}}</td>
-          <td>{{description}}</td>
-        </tr>
-      {{/companies}}
-    </tbody>
-  </table>
-</body>
+    <head>
+        <meta charset="utf-8" />
+        <title>
+            Report
+        </title>
+        <style>
+            body { font-family: Arial, sans-serif; } table { border-collapse:
+            collapse; width: 100%; } th, td { border: 1px solid black; padding:
+            8px; text-align: left; } th { background-color: #f2f2f2; }
+        </style>
+    </head>
+
+    <body>
+        <h1>
+            Report
+        </h1>
+        <h2>
+            Company Info
+        </h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Company
+                    </th>
+                    <th>
+                        Type
+                    </th>
+                    <th>
+                        Description
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#companies}}
+                    <tr>
+                        <td>
+                            {{name}}
+                        </td>
+                        <td>
+                            {{type}}
+                        </td>
+                        <td>
+                            {{description}}
+                        </td>
+                    </tr>
+                {{/companies}}
+            </tbody>
+        </table>
+
+        {{#if showCompanyContacts}}
+            <h2>
+                Company Contacts
+            </h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>
+                            Company
+                        </th>
+                        <th>
+                            Email
+                        </th>
+                        <th>
+                            Phone Number
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#companies}}
+                        <tr>
+                            <td>
+                                {{name}}
+                            </td>
+                            <td>
+                                {{email}}
+                            </td>
+                            <td>
+                                {{phoneNumber}}
+                            </td>
+                        </tr>
+                    {{/companies}}
+                </tbody>
+            </table>
+        {{/if}}
+    </body>
 </html>

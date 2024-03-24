@@ -99,6 +99,7 @@ exports.searchCompany = catchAsync(async (req, res) => {
             $regex: keyword,
             $options: "i", // Case insensitive
         },
+        owner: req.user._id,
         // type,
     };
 
