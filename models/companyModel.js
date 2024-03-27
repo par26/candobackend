@@ -35,7 +35,12 @@ const companySchema = new mongoose.Schema({
     //students: [{type: Schema.Types.ObjectId, ref: "Student"}],
     //classId: {type: String, required: true},
     //event: [{type: Schema.Types.ObjectId, ref: "Event"}],
-    resources: [{ type: String }],
+    resources: [
+        {
+            name: { type: String },
+            link: { type: String },
+        },
+    ],
 
     owner: {
         type: mongoose.Schema.Types.ObjectId,
