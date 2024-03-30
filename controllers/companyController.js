@@ -95,10 +95,21 @@ exports.searchCompany = catchAsync(async (req, res) => {
     const { keyword, type } = req.query;
 
     const filterCriteria = {
-        name: {
-            $regex: keyword,
-            $options: "i", // Case insensitive
-        },
+        $or: [
+            {
+                name: {
+                    $regex: keyword,
+                    $options: "i", // Case insensitive
+                },
+            },
+            {
+                type: {
+                    $regex: keyword,
+                    $options: "i", // Case insensitive
+                },
+            },
+        ],
+
         owner: req.user._id,
         // type,
     };
