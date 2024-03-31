@@ -15,7 +15,6 @@
         "express": "^4.18.2",
         "handlebars": "^4.7.8",
         "jsonwebtoken": "^9.0.2",
-        "lohsfblabackend": "link:",
         "mongoose": "^7.6.3",
         "morgan": "~1.9.1",
         "puppeteer": "^22.1.0",
