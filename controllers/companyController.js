@@ -32,7 +32,13 @@ exports.getAllCompanies = catchAsync(async (req, res) => {
 
 exports.getCompany = catchAsync(async (req, res, next) => {
     const { companyId } = req.params;
-    const company = await Company.findById(companyId);
+    const company = await Company.findByIdAndUpdate(
+        companyId,
+        { $inc: { amountClicked: 1 } },
+        {
+            new: true,
+        }
+    );
 
     if (!company) {
         return next(new AppError("No company found with that id", 404));

@@ -28,9 +28,6 @@ const userSchema = new mongoose.Schema({
         required: [true, "Please fill in your last name"],
         maxLength: 100,
     },
-    //students: [{type: Schema.Types.ObjectId, ref: "Student"}],
-    //classId: {type: String, required: true},
-    //event: [{type: Schema.Types.ObjectId, ref: "Event"}],
     email: {
         type: String,
         required: [true, "Please provide an email"],

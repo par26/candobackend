@@ -31,6 +31,8 @@ const companySchema = new mongoose.Schema({
 
     createdAt: { type: Date },
 
+    amountClicked: { type: Number, default: 0 },
+
     //contacts: [{type:}],
     //students: [{type: Schema.Types.ObjectId, ref: "Student"}],
     //classId: {type: String, required: true},

@@ -25,12 +25,19 @@
                     <th>
                         Company
                     </th>
-                    <th>
-                        Type
-                    </th>
-                    <th>
-                        Description
-                    </th>
+                    {{#if showTags}}
+                        <th>
+                            Tags
+                        </th>
+                    {{/if}}
+                    {{#if showDescription}}
+                        <th>
+                            Description
+                        </th>
+                    {{/if}}
+                    {{#if showLocation}}
+                    <th>Location</th>
+                    {{/if}}
                 </tr>
             </thead>
             <tbody>
@@ -39,51 +46,80 @@
                         <td>
                             {{name}}
                         </td>
-                        <td>
-                            {{type}}
-                        </td>
-                        <td>
-                            {{description}}
-                        </td>
+                        {{#if ../showTags}}
+                            <td>
+                                {{type}}
+                            </td>
+                        {{/if}}
+                        {{#if ../showDescription}}
+                            <td>
+                                {{description}}
+                            </td>
+                        {{/if}}
+                        {{#if ../showLocation}}
+                        <td>{{location}}</td>
+                        {{/if}}
                     </tr>
                 {{/companies}}
             </tbody>
         </table>
 
-        {{#if showCompanyContacts}}
-            <h2>
-                Company Contacts
-            </h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>
-                            Company
-                        </th>
+        <h2>
+            Company Contacts
+        </h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        Company
+                    </th>
+                    {{#if showEmail}}
                         <th>
                             Email
                         </th>
+                    {{/if}}
+                    {{#if showPhoneNumber}}
                         <th>
                             Phone Number
                         </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {{#companies}}
-                        <tr>
-                            <td>
-                                {{name}}
-                            </td>
+                    {{/if}}
+                    {{#if showResources}}
+                        <th>
+                            Resources
+                        </th>
+                    {{/if}}
+                </tr>
+            </thead>
+            <tbody>
+                {{#companies}}
+                    <tr>
+                        <td>
+                            {{name}}
+                        </td>
+                        {{#if ../showEmail}}
                             <td>
                                 {{email}}
                             </td>
+                        {{/if}}
+                        {{#if ../showPhoneNumber}}
                             <td>
                                 {{phoneNumber}}
                             </td>
-                        </tr>
-                    {{/companies}}
-                </tbody>
-            </table>
-        {{/if}}
+                        {{/if}}
+                        {{#if ../showResources}}
+                            <td>
+                                {{#resources}}
+                                <div>
+                                    <a href="{{link}}">
+                                        {{name}}
+                                    </a>
+                                </div>
+                                {{/resources}}
+                            </td>
+                        {{/if}}
+                    </tr>
+                {{/companies}}
+            </tbody>
+        </table>
     </body>
 </html>

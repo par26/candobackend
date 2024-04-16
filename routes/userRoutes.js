@@ -29,7 +29,7 @@ router.use(
     companyRouter
 );
 
-router.get(
+router.post(
     "/:userId/generate-report",
     authController.protect,
     reportGenerator.generatePdf
