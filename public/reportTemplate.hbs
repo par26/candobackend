@@ -9,7 +9,35 @@
             collapse; width: 100%; } th, td { border: 1px solid black; padding:
             8px; text-align: left; } th { background-color: #f2f2f2; }
         </style>
+
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
     </head>
+
+    <script>
+         document.addEventListener('DOMContentLoaded', (event) => {
+    const ctx = document.getElementById('tagBarGraph').getContext('2d');
+    const chartData = {{{data}}};
+    const chartLabel = {{{labels}}};
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: chartLabel,
+        datasets: [{
+          label: '# of Occurences',
+          data: chartData,
+          borderWidth: 1
+        }]
+      }
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    })
+    });
+    </script>
 
     <body>
         <h1>
@@ -121,5 +149,9 @@
                 {{/companies}}
             </tbody>
         </table>
+
+        <div>
+            <canvas id="tagBarGraph"></canvas>
+        </div>
     </body>
 </html>
