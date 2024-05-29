@@ -8,36 +8,28 @@
             body { font-family: Arial, sans-serif; } table { border-collapse:
             collapse; width: 100%; } th, td { border: 1px solid black; padding:
             8px; text-align: left; } th { background-color: #f2f2f2; }
+            
+            .tags-title {
+                margin-top: 500px;
+            }
         </style>
 
-        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script defer src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", event => {
+                const chartData = "{{{data}}}".split(",");
+                const chartLabel = "{{{labels}}}".split(",").map(v => Number(v));
+                const data = [
+                    {
+                        x: chartData,
+                        y: chartLabel,
+                        type: "bar"
+                    }
+                ];
+                Plotly.newPlot("tag-bar-graph", data);
+            });
+        </script>
     </head>
-
-    <script>
-         document.addEventListener('DOMContentLoaded', (event) => {
-    const ctx = document.getElementById('tagBarGraph').getContext('2d');
-    const chartData = {{{data}}};
-    const chartLabel = {{{labels}}};
-    new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: chartLabel,
-        datasets: [{
-          label: '# of Occurences',
-          data: chartData,
-          borderWidth: 1
-        }]
-      }
-      options: {
-        scales: {
-          y: {
-            beginAtZero: true
-          }
-        }
-      }
-    })
-    });
-    </script>
 
     <body>
         <h1>
@@ -150,8 +142,7 @@
             </tbody>
         </table>
 
-        <div>
-            <canvas id="tagBarGraph"></canvas>
-        </div>
+        <h3 class="tags-title">Top 7 Most Common Tags</h3>
+        <div id="tag-bar-graph"></div>
     </body>
 </html>
