@@ -34,7 +34,7 @@ exports.getCompany = catchAsync(async (req, res, next) => {
     const { companyId } = req.params;
     const company = await Company.findByIdAndUpdate(
         companyId,
-        { $inc: { amountClicked: 1 } },
+        { $inc: { amountClicked: 1 }, lastClickedAt: Date.now() },
         {
             new: true,
         }

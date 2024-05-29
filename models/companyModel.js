@@ -15,7 +15,7 @@ const mongoose = require("mongoose");
  */
 
 const companySchema = new mongoose.Schema({
-    name: { type: String, required: true, maxLength: 100 },
+    name: { type: String, required: true, maxLength: 100, unique: true },
 
     type: [{ type: String }],
 
@@ -30,6 +30,8 @@ const companySchema = new mongoose.Schema({
     email: { type: String },
 
     createdAt: { type: Date },
+
+    lastClickedAt: { type: Date },
 
     amountClicked: { type: Number, default: 0 },
 
