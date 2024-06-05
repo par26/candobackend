@@ -19,6 +19,16 @@ const compile = async function (templateName, data) {
 exports.generatePdf = catchAsync(async (req, res, next) => {
     const companies = await Company.find({ owner: req.user._id });
     const companiesArray = companies.map(company => company.toObject());
+    const topClickedCompanyDocuments = await Company.find({})
+        .sort({
+            amountClicked: -1,
+        })
+        .limit(5);
+    const topClickedCompanyNames = topClickedCompanyDocuments.map(c => c.name);
+    const topClickedCompanyClicks = topClickedCompanyDocuments.map(
+        c => c.amountClicked
+    );
+
     const body = req.body;
 
     const userName = req.user.firstName;
@@ -29,9 +39,10 @@ exports.generatePdf = catchAsync(async (req, res, next) => {
     const page = await browser.newPage();
 
     const content = await compile("reportTemplate", {
-        // convert companies to js object
-        data: Array.from(tags.keys()),
-        labels: Array.from(tags.values()),
+        tagLabels: Array.from(tags.keys()),
+        tagData: Array.from(tags.values()),
+        topClickedCompanyNames,
+        topClickedCompanyClicks,
         companies: companiesArray,
         ...req.body,
     });

@@ -8,25 +8,32 @@
             body { font-family: Arial, sans-serif; } table { border-collapse:
             collapse; width: 100%; } th, td { border: 1px solid black; padding:
             8px; text-align: left; } th { background-color: #f2f2f2; }
-            
-            .tags-title {
-                margin-top: 500px;
-            }
         </style>
 
         <script defer src="https://cdn.plot.ly/plotly-latest.min.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", event => {
-                const chartData = "{{{data}}}".split(",");
-                const chartLabel = "{{{labels}}}".split(",").map(v => Number(v));
-                const data = [
+                const tagLabels = "{{{tagLabels}}}".split(",");
+                const tagData = "{{{tagData}}}".split(",").map(v => Number(v));
+                const mostClickedTagsData = [
                     {
-                        x: chartData,
-                        y: chartLabel,
+                        x: tagLabels,
+                        y: tagData,
                         type: "bar"
                     }
                 ];
-                Plotly.newPlot("tag-bar-graph", data);
+                Plotly.newPlot("tag-bar-graph", mostClickedTagsData);
+
+                const topClickedCompanyNames = "{{{topClickedCompanyNames}}}".split(",");
+                const topClickedCompanyClicks = "{{{topClickedCompanyClicks}}}".split(",");
+                const topClickedCompanyData = [
+                    {
+                        x: topClickedCompanyNames,
+                        y: topClickedCompanyClicks,
+                        type: "bar"
+                    }
+                ];
+                Plotly.newPlot("companies-clicked-bar-graph", topClickedCompanyData);
             });
         </script>
     </head>
@@ -35,6 +42,14 @@
         <h1>
             Report
         </h1>
+
+        <h2>Company Data</h2>
+        <h3>Top 7 Most Common Tags</h3>
+        <div id="tag-bar-graph"></div>
+
+        <h3>Top 5 Most Clicked Companies</h3>
+        <div id="companies-clicked-bar-graph"></div>
+
         <h2>
             Company Info
         </h2>
@@ -141,8 +156,5 @@
                 {{/companies}}
             </tbody>
         </table>
-
-        <h3 class="tags-title">Top 7 Most Common Tags</h3>
-        <div id="tag-bar-graph"></div>
     </body>
 </html>
