@@ -46,6 +46,11 @@ const companySchema = new mongoose.Schema({
         },
     ],
 
+    public: {
+        type: Boolean,
+        default: false,
+    },
+
     owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",

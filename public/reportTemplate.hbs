@@ -8,6 +8,50 @@
             body { font-family: Arial, sans-serif; } table { border-collapse:
             collapse; width: 100%; } th, td { border: 1px solid black; padding:
             8px; text-align: left; } th { background-color: #f2f2f2; }
+            #title {
+                text-align: center;
+                margin: 20px;
+            }
+            h1, h2, h3 {
+                color: #2c3e50;
+                margin-bottom: 10px;
+                font-weight: normal;
+            }
+            table { 
+                border-collapse: collapse; 
+                width: 100%; 
+                margin-bottom: 20px;
+                background-color: #ffffff;
+                box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            }
+            th, td { 
+                border: 1px solid #dddddd; 
+                padding: 12px; 
+                text-align: left; 
+                font-size: 14px;
+            }
+            th { 
+                background-color: #e8f5e9; 
+                font-weight: bold;
+                color: #2c3e50;
+            }
+            tr:nth-child(even) { 
+                background-color: #f8f8f8;
+            }
+            .tags-title {
+                margin-top: 50px;
+                color: #2c3e50;
+            }
+            #tag-bar-graph {
+                margin-top: 20px;
+            }
+            a {
+                color: #388e3c;
+                text-decoration: none;
+            }
+            a:hover {
+                text-decoration: underline;
+            }
         </style>
 
         <script defer src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -19,10 +63,19 @@
                     {
                         x: tagLabels,
                         y: tagData,
-                        type: "bar"
+                        type: "bar",
+                        marker: {
+                            color: "#00ba69",
+                            opacity: 0.8,
+                            line: {
+                                width: 1.5
+                            }
+                        },
                     }
                 ];
-                Plotly.newPlot("tag-bar-graph", mostClickedTagsData);
+                Plotly.newPlot("tag-bar-graph", mostClickedTagsData, {
+                    title: "Top 7 Most Common Tags",
+                });
 
                 const topClickedCompanyNames = "{{{topClickedCompanyNames}}}".split(",");
                 const topClickedCompanyClicks = "{{{topClickedCompanyClicks}}}".split(",");
@@ -30,24 +83,29 @@
                     {
                         x: topClickedCompanyNames,
                         y: topClickedCompanyClicks,
-                        type: "bar"
+                        type: "bar",
+                        marker: {
+                            color: "#00ba69",
+                            opacity: 0.8,
+                            line: {
+                                width: 1.5
+                            }
+                        }
                     }
                 ];
-                Plotly.newPlot("companies-clicked-bar-graph", topClickedCompanyData);
+                Plotly.newPlot("companies-clicked-bar-graph", topClickedCompanyData, {
+                    title: "Top 5 Most Clicked Companies"
+                });
             });
         </script>
     </head>
 
     <body>
-        <h1>
-            Report
+        <h1 id="title">
+            {{username}}'s Report [{{formattedDate}}]
         </h1>
 
-        <h2>Company Data</h2>
-        <h3>Top 7 Most Common Tags</h3>
         <div id="tag-bar-graph"></div>
-
-        <h3>Top 5 Most Clicked Companies</h3>
         <div id="companies-clicked-bar-graph"></div>
 
         <h2>

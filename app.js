@@ -11,6 +11,7 @@ const companyRouter = require("./routes/companyRoutes");
 const errorController = require("./controllers/errorController");
 const AppError = require("./utils/AppError");
 const cors = require("cors");
+const publicCompanyRouter = require("./routes/publicCompanyRoutes");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use(cors());
 
 app.use("/api/v1/", indexRouter);
 app.use("/api/v1/users", userRouter);
+app.use("/api/v1/public-companies", publicCompanyRouter);
 // app.use("/api/v1/companies", companyRouter);
 
 app.all("*", (req, res, next) => {

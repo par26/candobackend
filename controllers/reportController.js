@@ -6,6 +6,7 @@ const companyController = require("../controllers/companyController");
 const catchAsync = require("../utils/catchAsync");
 const Company = require("../models/companyModel");
 const { Readable } = require("stream");
+const { format } = require("date-fns");
 
 const NUM_TAGS_TO_DISPLAY = 7;
 
@@ -15,6 +16,10 @@ const compile = async function (templateName, data) {
 
     return hbs.compile(html)(data);
 };
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
 
 exports.generatePdf = catchAsync(async (req, res, next) => {
     const companies = await Company.find({ owner: req.user._id });
@@ -38,14 +43,20 @@ exports.generatePdf = catchAsync(async (req, res, next) => {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
 
-    const content = await compile("reportTemplate", {
+    const data = {
         tagLabels: Array.from(tags.keys()),
         tagData: Array.from(tags.values()),
         topClickedCompanyNames,
         topClickedCompanyClicks,
         companies: companiesArray,
+        username: `${capitalizeFirstLetter(
+            req.user.firstName
+        )} ${capitalizeFirstLetter(req.user.lastName)}`,
+        formattedDate: format(new Date(), "MMMM do, yyyy"),
         ...req.body,
-    });
+    };
+
+    const content = await compile("reportTemplate", data);
 
     await page.setContent(content);
 
