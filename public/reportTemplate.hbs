@@ -12,6 +12,11 @@
                 text-align: center;
                 margin: 20px;
             }
+
+            #date {
+                text-align: right;
+                font-size: small;
+            }
             h1, h2, h3 {
                 color: #2c3e50;
                 margin-bottom: 10px;
@@ -73,9 +78,16 @@
                         },
                     }
                 ];
-                Plotly.newPlot("tag-bar-graph", mostClickedTagsData, {
+
+                //note chnge title to number of tags later
+                var mostClickedTagsLayout = {
                     title: "Top 7 Most Common Tags",
-                });
+                    xaxis: {title: 'Company'},
+                    yaxis: {title: '# of Occurrences'}
+                    barcornerradius: 15,
+
+                }; 
+                Plotly.newPlot("tag-bar-graph", mostClickedTagsData, mostClickedTagsLayout);
 
                 const topClickedCompanyNames = "{{{topClickedCompanyNames}}}".split(",");
                 const topClickedCompanyClicks = "{{{topClickedCompanyClicks}}}".split(",");
@@ -93,6 +105,15 @@
                         }
                     }
                 ];
+
+                //Change the title to x clicked companies later
+                var mostClickedCompanyLayout = {
+                    title: "Top Clicked Companies",
+                    xaxis: {title: 'Company'},
+                    yaxis: {title: '# of Clicks'}
+                    barcornerradius: 15,
+                }; 
+
                 Plotly.newPlot("companies-clicked-bar-graph", topClickedCompanyData, {
                     title: "Top 5 Most Clicked Companies"
                 });
@@ -102,8 +123,12 @@
 
     <body>
         <h1 id="title">
-            {{username}}'s Report [{{formattedDate}}]
+            Company Analysis 
         </h1>
+
+        <h3 id="date">
+            [{{formattedDate}}]
+        </h3>
 
         <div id="tag-bar-graph"></div>
         <div id="companies-clicked-bar-graph"></div>
