@@ -7,6 +7,7 @@ const catchAsync = require("../utils/catchAsync");
 const Company = require("../models/companyModel");
 const { Readable } = require("stream");
 const { format } = require("date-fns");
+const getCommonTags = require("../utils/getCommonTags");
 
 const NUM_TAGS_TO_DISPLAY = 7;
 
@@ -73,23 +74,3 @@ exports.generatePdf = catchAsync(async (req, res, next) => {
     res.setHeader("Content-Disposition", "attachment; filename=quote.pdf");
     stream.pipe(res);
 });
-
-const getCommonTags = async function (companyData) {
-    let tags = new Map();
-
-    for (const company of companyData) {
-        for (const tag of company.type) {
-            if (tags.get(tag) == undefined) {
-                tags.set(tag, 1);
-            } else {
-                tags.set(tag, tags.get(tag) + 1);
-            }
-        }
-    }
-
-    const tagsArray = Array.from(tags.entries());
-    tagsArray.sort((a, b) => b[1] - a[1]);
-    const top5Tags = new Map(tagsArray.slice(0, NUM_TAGS_TO_DISPLAY));
-
-    return top5Tags;
-};
