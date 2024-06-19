@@ -39,7 +39,7 @@ exports.generatePdf = catchAsync(async (req, res, next) => {
 
     const userName = req.user.firstName;
 
-    const tags = await getCommonTags(companiesArray);
+    const tags = getCommonTags(companiesArray, NUM_TAGS_TO_DISPLAY);
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();

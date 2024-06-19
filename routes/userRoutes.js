@@ -23,7 +23,7 @@ router.get("/get-user-from-token", authController.protect, (req, res) => {
     });
 });
 router.get(
-    "/:userId/recommended-tags",
+    "/recommended-tags",
     authController.protect,
     userController.getRecommendedTags
 );
