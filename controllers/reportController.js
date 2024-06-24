@@ -18,10 +18,6 @@ const compile = async function (templateName, data) {
     return hbs.compile(html)(data);
 };
 
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
 exports.generatePdf = catchAsync(async (req, res, next) => {
     const companies = await Company.find({ owner: req.user._id });
     const companiesArray = companies.map(company => company.toObject());
@@ -37,8 +33,6 @@ exports.generatePdf = catchAsync(async (req, res, next) => {
 
     const body = req.body;
 
-    const userName = req.user.firstName;
-
     const tags = getCommonTags(companiesArray, NUM_TAGS_TO_DISPLAY);
 
     const browser = await puppeteer.launch();
@@ -50,9 +44,6 @@ exports.generatePdf = catchAsync(async (req, res, next) => {
         topClickedCompanyNames,
         topClickedCompanyClicks,
         companies: companiesArray,
-        username: `${capitalizeFirstLetter(
-            req.user.firstName
-        )} ${capitalizeFirstLetter(req.user.lastName)}`,
         formattedDate: format(new Date(), "MMMM do, yyyy"),
         ...req.body,
     };
