@@ -93,3 +93,5 @@ const getCommonTags = async function (companyData) {
 
     return top5Tags;
 };
+
+
