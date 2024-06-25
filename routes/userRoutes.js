@@ -6,6 +6,7 @@ const companyController = require("../controllers/companyController");
 const reportGenerator = require("../controllers/reportController");
 const userController = require("../controllers/userController");
 
+const csvController = require("./controllers/csvController");
 const router = express.Router();
 
 router.post("/signup", authController.signup);
@@ -41,4 +42,10 @@ router.post(
     reportGenerator.generatePdf
 );
 
+
+router.post(
+    "/:userId/generate-csv",
+    authController.protect,
+    reportGenerator.generateCSV
+);
 module.exports = router;
