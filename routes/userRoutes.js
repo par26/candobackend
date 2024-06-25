@@ -3,10 +3,10 @@ const { authenticateAdmin } = require("../controllers/userController");
 const authController = require("../controllers/authController");
 const companyRouter = require("./companyRoutes");
 const companyController = require("../controllers/companyController");
-const reportGenerator = require("../controllers/reportController");
+const reportController = require("../controllers/reportController");
 const userController = require("../controllers/userController");
+const csvController = require("../controllers/csvController");
 
-const csvController = require("./controllers/csvController");
 const router = express.Router();
 
 router.post("/signup", authController.signup);
@@ -39,13 +39,13 @@ router.use(
 router.post(
     "/:userId/generate-report",
     authController.protect,
-    reportGenerator.generatePdf
+    reportController.generatePdf
 );
-
 
 router.post(
     "/:userId/generate-csv",
     authController.protect,
-    reportGenerator.generateCSV
+    csvController.generateCSV
 );
+
 module.exports = router;
