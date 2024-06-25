@@ -13,6 +13,10 @@
                 margin: 20px;
             }
 
+            #companies-clicked-bar-graph {
+                margin-bottom: 1000px;
+            }
+
             #date {
                 text-align: right;
                 font-size: small;
@@ -69,6 +73,9 @@
                         x: tagLabels,
                         y: tagData,
                         type: "bar",
+                        width: 0.5,
+                        text: tagData.map(String),
+                        textposition: 'auto',
                         marker: {
                             color: "#00ba69",
                             opacity: 0.8,
@@ -80,10 +87,10 @@
                 ];
 
                 //note chnge title to number of tags later
-                var mostClickedTagsLayout = {
-                    title: "Top 7 Most Common Tags",
-                    xaxis: {title: 'Company'},
-                    yaxis: {title: '# of Occurrences'}
+                const mostClickedTagsLayout = {
+                    title: "Most Common Tags",
+                    xaxis: { title: 'Tag Name' },
+                    yaxis: {title: '# of Occurrences'},
                     barcornerradius: 15,
 
                 }; 
@@ -96,6 +103,9 @@
                         x: topClickedCompanyNames,
                         y: topClickedCompanyClicks,
                         type: "bar",
+                        width: 0.5,
+                        text: topClickedCompanyClicks.map(String),
+                        textposition: 'auto',
                         marker: {
                             color: "#00ba69",
                             opacity: 0.8,
@@ -107,16 +117,14 @@
                 ];
 
                 //Change the title to x clicked companies later
-                var mostClickedCompanyLayout = {
+                const mostClickedCompanyLayout = {
                     title: "Top Clicked Companies",
-                    xaxis: {title: 'Company'},
-                    yaxis: {title: '# of Clicks'}
+                    xaxis: { title: "Company Name" },
+                    yaxis: { title: "# of Clicks" },
                     barcornerradius: 15,
                 }; 
 
-                Plotly.newPlot("companies-clicked-bar-graph", topClickedCompanyData, {
-                    title: "Top 5 Most Clicked Companies"
-                });
+                Plotly.newPlot("companies-clicked-bar-graph", topClickedCompanyData, mostClickedCompanyLayout);
             });
         </script>
     </head>
@@ -130,8 +138,12 @@
             [{{formattedDate}}]
         </h3>
 
-        <div id="tag-bar-graph"></div>
-        <div id="companies-clicked-bar-graph"></div>
+        {{#if showCommonTags}}
+            <div id="tag-bar-graph"></div>
+        {{/if}}        
+        {{#if showTopClickedCompanies}}
+            <div id="companies-clicked-bar-graph"></div>
+        {{/if}}
 
         <h2>
             Company Info

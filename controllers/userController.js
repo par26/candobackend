@@ -1,4 +1,7 @@
 const Admin = require("../models/userModel");
+const catchAsync = require("../utils/catchAsync");
+const getCommonTags = require("../utils/getCommonTags");
+const Company = require("../models/companyModel");
 
 exports.authenticateAdmin = (req, res, next) => {
     try {
@@ -31,6 +34,21 @@ exports.authenticateAdmin = (req, res, next) => {
         res.status(401).json({ error: err.message });
     }
 };
+
+exports.getRecommendedTags = catchAsync(async (req, res) => {
+    const TAG_LIMITS = 7;
+
+    const companies = await Company.find({ owner: req.user._id });
+    const tags = getCommonTags(companies, TAG_LIMITS);
+
+    res.status(200).json({
+        status: "success",
+        results: TAG_LIMITS,
+        data: {
+            tags: Array.from(tags.keys()),
+        },
+    });
+});
 
 //the admin create post request
 exports.admin_create_post = async (req, res) => {

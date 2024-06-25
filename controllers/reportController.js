@@ -7,6 +7,7 @@ const catchAsync = require("../utils/catchAsync");
 const Company = require("../models/companyModel");
 const { Readable } = require("stream");
 const { format } = require("date-fns");
+const getCommonTags = require("../utils/getCommonTags");
 
 const NUM_TAGS_TO_DISPLAY = 7;
 
@@ -16,10 +17,6 @@ const compile = async function (templateName, data) {
 
     return hbs.compile(html)(data);
 };
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-}
 
 exports.generatePdf = catchAsync(async (req, res, next) => {
     const companies = await Company.find({ owner: req.user._id });
@@ -36,9 +33,7 @@ exports.generatePdf = catchAsync(async (req, res, next) => {
 
     const body = req.body;
 
-    const userName = req.user.firstName;
-
-    const tags = await getCommonTags(companiesArray);
+    const tags = getCommonTags(companiesArray, NUM_TAGS_TO_DISPLAY);
 
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
@@ -49,9 +44,6 @@ exports.generatePdf = catchAsync(async (req, res, next) => {
         topClickedCompanyNames,
         topClickedCompanyClicks,
         companies: companiesArray,
-        username: `${capitalizeFirstLetter(
-            req.user.firstName
-        )} ${capitalizeFirstLetter(req.user.lastName)}`,
         formattedDate: format(new Date(), "MMMM do, yyyy"),
         ...req.body,
     };
@@ -93,5 +85,3 @@ const getCommonTags = async function (companyData) {
 
     return top5Tags;
 };
-
-

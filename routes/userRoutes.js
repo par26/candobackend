@@ -4,6 +4,7 @@ const authController = require("../controllers/authController");
 const companyRouter = require("./companyRoutes");
 const companyController = require("../controllers/companyController");
 const reportGenerator = require("../controllers/reportController");
+const userController = require("../controllers/userController");
 
 const router = express.Router();
 
@@ -21,6 +22,11 @@ router.get("/get-user-from-token", authController.protect, (req, res) => {
         user: req.user,
     });
 });
+router.get(
+    "/recommended-tags",
+    authController.protect,
+    userController.getRecommendedTags
+);
 
 router.use(
     "/:userId/companies",
