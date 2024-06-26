@@ -1,20 +1,20 @@
-/** 
-* User model
-/**@module userModel 
-*/
+/**
+ * User model
+ * @module userModel
+ */
 const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const validator = require("validator");
 
 /**rwr4rwr
- *Represents an user in the system.
- *@typedef {Object} User
- *@property {string} first_name - The first name of the user.
- *@property {string} last_name - The last name of the user.
- *@property {string} classId - The id of the user's class.
- *@property {Array.<mongoose.Schema.Types.ObjectId>} event - An array of company object ids.
- *@property {string} email - The email of the user.
- *@property {string} password - The password of the user.
+ * Represents an user in the system.
+ * @typedef {Object} User
+ * @property {string} first_name - The first name of the user.
+ * @property {string} last_name - The last name of the user.
+ * @property {string} classId - The id of the user's class.
+ * @property {Array.<mongoose.Schema.Types.ObjectId>} event - An array of company object ids.
+ * @property {string} email - The email of the user.
+ * @property {string} password - The password of the user.
  */
 
 const userSchema = new mongoose.Schema({
@@ -82,5 +82,5 @@ userSchema.methods.hasPasswordChangedAfter = function (jwtTimestamp) {
     return false;
 };
 
-//exports the user module
+// Exports the user module
 module.exports = mongoose.model("User", userSchema);

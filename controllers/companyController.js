@@ -6,10 +6,13 @@ const AppError = require("../utils/AppError");
 const User = require("../models/userModel");
 
 /**
+ * Get all companies owned by the logged-in user with optional query parameters
+ * for filtering, sorting, field limiting, and pagination
  * @param {express.Request} req
  * @param {express.Response} res
  */
 exports.getAllCompanies = catchAsync(async (req, res) => {
+    // Initialize APIFeatures with Company query and request query parameters
     const features = new APIFeatures(
         Company.find({ owner: req.user._id }),
         req.query
@@ -19,8 +22,10 @@ exports.getAllCompanies = catchAsync(async (req, res) => {
         .limitFields()
         .paginate();
 
+    // Execute the query and get companies
     const companies = await features.query;
 
+    // Send response with companies data
     res.status(200).json({
         status: "success",
         results: companies.length,
@@ -30,8 +35,16 @@ exports.getAllCompanies = catchAsync(async (req, res) => {
     });
 });
 
+/**
+ * Get a single company by ID and increment its click count and update last clicked time
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {Function} next
+ */
 exports.getCompany = catchAsync(async (req, res, next) => {
     const { companyId } = req.params;
+
+    // Find company by ID and update click count and last clicked time
     const company = await Company.findByIdAndUpdate(
         companyId,
         { $inc: { amountClicked: 1 }, lastClickedAt: Date.now() },
@@ -40,23 +53,33 @@ exports.getCompany = catchAsync(async (req, res, next) => {
         }
     );
 
+    // If company not found, return error
     if (!company) {
         return next(new AppError("No company found with that id", 404));
     }
 
+    // Send response with company data
     res.status(200).json({
         status: "success",
         data: { company },
     });
 });
 
+/**
+ * Create a new company with the logged-in user as the owner
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {Function} next
+ */
 exports.createCompany = catchAsync(async (req, res, next) => {
+    // Create new company with request body data and owner ID
     const newCompany = await Company.create({
         ...req.body,
         owner: req.user._id,
         createdAt: Date.now(),
     });
 
+    // Send response with created company data
     res.status(201).json({
         status: "success",
         data: {
@@ -65,8 +88,16 @@ exports.createCompany = catchAsync(async (req, res, next) => {
     });
 });
 
-exports.updateCompany = catchAsync(async (req, res) => {
+/**
+ * Update an existing company by ID
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {Function} next
+ */
+exports.updateCompany = catchAsync(async (req, res, next) => {
     const { companyId } = req.params;
+
+    // Find company by ID and update with request body data
     const updatedCompany = await Company.findByIdAndUpdate(
         companyId,
         req.body,
@@ -76,30 +107,48 @@ exports.updateCompany = catchAsync(async (req, res) => {
         }
     );
 
+    // If company not found, return error
     if (!updatedCompany) {
         return next(new AppError("No company found with that id", 404));
     }
 
+    // Send response with updated company data
     res.status(200).json({
         status: "success",
         data: { company: updatedCompany },
     });
 });
 
-exports.deleteCompany = catchAsync(async (req, res) => {
+/**
+ * Delete a company by ID
+ * @param {express.Request} req
+ * @param {express.Response} res
+ * @param {Function} next
+ */
+exports.deleteCompany = catchAsync(async (req, res, next) => {
     const { companyId } = req.params;
+
+    // Find company by ID and delete
     const deletedCompany = await Company.findByIdAndDelete(companyId);
 
+    // If company not found, return error
     if (!deletedCompany) {
         return next(new AppError("No company found with that id", 404));
     }
 
+    // Send response with no content
     res.status(204).json({ status: "success", data: null });
 });
 
+/**
+ * Search for companies by keyword in name or type, owned by the logged-in user
+ * @param {express.Request} req
+ * @param {express.Response} res
+ */
 exports.searchCompany = catchAsync(async (req, res) => {
-    const { keyword, type } = req.query;
+    const { keyword } = req.query;
 
+    // Build filter criteria for search
     const filterCriteria = {
         $or: [
             {
@@ -115,59 +164,15 @@ exports.searchCompany = catchAsync(async (req, res) => {
                 },
             },
         ],
-
         owner: req.user._id,
-        // type,
     };
 
+    // Find companies matching filter criteria
     const companies = await Company.find(filterCriteria);
 
+    // Send response with found companies data
     res.status(200).json({
         status: "success",
         data: companies,
     });
 });
-
-// exports.company_create_post = async (req, res) => {
-// 	var tags = req.body.tags;
-
-// 	// Converts the tags into an array
-// 	if (!Array.isArray(tags)) {
-// 		if (typeof tags === "undefined") {
-// 			tags = [];
-// 		} else {
-// 			tags = [req.body.tags];
-// 		}
-// 	}
-
-// 	//note: May need to add the resources later
-
-// 	var companyModel = new Company({
-// 		name: req.body.name,
-
-// 		type: tags,
-
-// 		location: req.body.location,
-
-// 		phone_number: req.body.phone_number,
-
-// 		email: req.body.email,
-// 	});
-
-// 	companyModel.save((err, company) => {
-// 		if (err) {
-// 			return res.status(500).send(err);
-// 		}
-// 		// Successful
-// 		// Find the user document by ID and append the new company id to the companies array
-// 		User.findByIdAndUpdate(
-// 			req.user._id,
-// 			{ $push: { companies: company._id } },
-// 			{ new: true }
-// 		).exec((err, user) => {
-// 			if (err) {
-// 				return res.status(500).send(err);
-// 			}
-// 		});
-// 	});
-// };
