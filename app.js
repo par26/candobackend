@@ -5,7 +5,6 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const jwt = require("jsonwebtoken");
-const indexRouter = require("./routes/index");
 const userRouter = require("./routes/userRoutes");
 const companyRouter = require("./routes/companyRoutes");
 const errorController = require("./controllers/errorController");
@@ -22,7 +21,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
-app.use("/api/v1/", indexRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/public-companies", publicCompanyRouter);
 // app.use("/api/v1/companies", companyRouter);
