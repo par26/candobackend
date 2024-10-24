@@ -1,6 +1,6 @@
-# FBLA Coding & Programming Project
+# C & O 
 
-This is our project for FBLA Coding & Programming 2024.
+This is our project for our Congressional App Challenge Submission
 
 ![FBLA Coding and Programmg.png](D:\0sysdata\Downloads\FBLA%20Coding%20and%20Programmg.png)
 
@@ -27,4 +27,4 @@ Our app includes features such as
 
 ## Authors
 
-Made by Lucas Fan, Pratush Agrawal, Michael Do.
+Made by Lucas Fan, Pratush Agrawal
